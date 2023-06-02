@@ -48,10 +48,20 @@ const Cart = () => {
       const { name, email, tel, address } = formData;
 
       if (totalPrice > 0 && name && email && tel && address) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          alert("Некоректний формат електронної пошти");
+          return;
+        }
+
+        if (!/^\d{10}$/.test(tel)) {
+          alert("Некоректний формат телефонного номеру (10 чисел)");
+          return;
+        }
+
         try {
           await instance.post("/delivery", formData);
 
-          alert("Ви відправили данні, очікуйте відповіді");
+          alert("Ви відправили дані, очікуйте відповіді");
 
           setFormData(userForm);
           dispatch(clearCart());
